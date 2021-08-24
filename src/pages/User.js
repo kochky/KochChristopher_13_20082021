@@ -1,10 +1,30 @@
 import React from 'react';
-import { connect} from 'react-redux'
+import {useEffect } from 'react'
+import { useSelector,connect, useDispatch } from "react-redux";
 
 
-function User(state) {
+function User() {
+  const staate=useSelector((state)=>state)
 
-  console.log(state) 
+  const tokenBody=useSelector((state)=> state.token)
+  const dispatch= useDispatch()
+  useEffect(() => {
+    fetch('http://localhost:3001/api/v1/user/profile', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${tokenBody}`
+    },
+    
+  })
+    .then(data => {return data.json()})
+    .then(dataJson => {
+      console.log(dataJson.body)
+      //dispatch({ type: 'FETCH_DATA', firstName: dataJson.body.firstName, lastName: dataJson.body.lastName, id: dataJson.body.id})
+      console.log(staate)
+    })
+  },[])
+
+ 
     return (
        <main className="main bg-dark">
       <div className="header">

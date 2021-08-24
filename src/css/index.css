@@ -329,3 +329,9 @@ body {
   margin:0 auto;
   width:285px;
 }
+
+.error-message {
+  margin-top:15px;
+  color:red;
+  font-size: 18px;
+}

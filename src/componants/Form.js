@@ -8,7 +8,6 @@ import { useSelector } from "react-redux";
 
 async function loginUser(tokenBody) {
 
-
   return fetch('http://localhost:3001/api/v1/user/login', {
     method: 'POST',
     headers: {
@@ -19,10 +18,7 @@ async function loginUser(tokenBody) {
     .then(data => data.json())
 }
 
-
-
 function Form () {
-
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -33,24 +29,19 @@ function Form () {
   const handleSubmit = async e => {
     e.preventDefault();
     const token = await loginUser({ email,password});
-    console.log(token)
+
     if (token.status ===200) {
       dispatch({ type: 'FETCH_DATA', error:false,auth:true, email:email , token:token.body.token,error:null})
     }
- 
     else if (token.status ===400){
-        dispatch({ type: 'FETCH_DATA', error:"Erreur dans l'username ou le password"})
+        dispatch({ type: 'FETCH_DATA', error:"Erreur dans l'username et/ou le password"})
      
     }else { dispatch({ type: 'FETCH_DATA', error:"Erreur serveur !"})
-
-      }
-      
+      }    
   }
   
     const errorMessage=useSelector((state)=> state.error)
-
     const auth= useSelector((state)=> state.auth)
-
 
     return !auth?(
 
@@ -67,16 +58,12 @@ function Form () {
           <input type="checkbox" id="remember-me" name="remember" value={remember} onChange={e => setRemember(e.target.value)} />
           <label htmlFor="remember-me" >Remember me</label>
         </div>
-        <div className="errorMessage">{errorMessage}</div>
+        <div className="error-message">{errorMessage}</div>
         <button className="sign-in-button">Sign In</button>
-
       </form>
       ):<Redirect to='/user' />
     
 }
-
-
-
 
 const mapStateToProps= (state) => { 
     return state

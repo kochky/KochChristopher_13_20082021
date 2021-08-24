@@ -7,12 +7,13 @@ const initialState = (
         auth:false,
         token:'',
         error:'',
+        loading:false,
         }
     )
 
 
 
-function userinfo(state= initialState,action){
+function userinfoReducer(state= initialState,action){
     let nextState
     switch(action.type) {
         case 'FETCH_DATA':
@@ -34,4 +35,4 @@ function userinfo(state= initialState,action){
 
 }
 
-export default userinfo
+export default userinfoReducer
