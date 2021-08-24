@@ -1,33 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Redirect } from "react-router-dom";
 import { connect} from 'react-redux'
-import { useDispatch,useStore  } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useSelector } from "react-redux";
- 
-
-
-async function loginUser(data) {
-
-  return fetch('http://localhost:3001/api/v1/user/login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
-  })
-    .then(data => data.json())
-}
-
-async function postToken(tokenBody) {
-
-  return fetch('http://localhost:3001/api/v1/user/profile', {
-    method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${tokenBody}`
-        },
-  })
-    .then(data => data.json())
-}
+import LoginUser from '../service/fetchLoginUser'
+import PostToken from '../service/fetchPostToken'
 
 
 function Form () {
@@ -37,24 +14,28 @@ function Form () {
   const [remember, setRemember] = useState(false)
     
   const dispatch= useDispatch()
-  var tokenBody=useSelector((state)=> state.token)
+  const tokenBody=useSelector((state)=> state.token)
   const errorMessage=useSelector((state)=> state.error)
   const auth= useSelector((state)=> state.auth)
+  const isLoading=useSelector((state)=> state.loading)
 
   const handleSubmit = async e => {
     e.preventDefault();
-    const token = await loginUser({ email,password});
-    dispatch({ type: 'FETCH_DATA',token:token.body.token})
-    if (token.status ===200) {console.log(token)
-      const userInfo= await postToken(tokenBody)
-       if (userInfo.status===200){console.log(userInfo)
-        dispatch({ type: 'FETCH_DATA',auth:true, email:email , error:null, firstName:userInfo.body.firstName, lastName: userInfo.body.lastName, id: userInfo.body.id})
+    dispatch({type:'IS_LOADING'})
+    const token = await LoginUser({ email,password});
+    if (token.status ===200) {
+      dispatch({ type: 'FETCH_DATA',token:token.body.token})
+      if (!isLoading){
+        var userInfo= await PostToken(tokenBody)
+        if (userInfo.status===200){
+          dispatch({ type: 'FETCH_DATA',auth:true, remember:remember, email:email , error:null, firstName:userInfo.body.firstName, lastName: userInfo.body.lastName, id: userInfo.body.id})
        }
+      }
     }
     else if (token.status ===400){
-        dispatch({ type: 'FETCH_DATA', error:"Erreur dans l'username et/ou le password"})
+        dispatch({ type: 'ERROR', error:"Erreur dans l'username et/ou le password"})
      
-    }else { dispatch({ type: 'FETCH_DATA', error:"Erreur serveur !"})
+    }else { dispatch({ type: 'ERROR', error:"Erreur serveur ! Réactualiser la page !"})
       }    
   }
     

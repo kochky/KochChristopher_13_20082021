@@ -15,7 +15,7 @@ function Navbar(){
 
 
   function handleClick(){
-    dispatch({ type: 'FETCH_DATA', auth:false})
+    dispatch({ type: 'LOG_OUT'})
     return (<Redirect to='/' />)
 
   }

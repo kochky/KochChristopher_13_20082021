@@ -1,6 +1,5 @@
 import React from 'react';
-import {useEffect } from 'react'
-import { useSelector,connect, useDispatch } from "react-redux";
+import { useSelector,connect } from "react-redux";
 
 
 function User() {
@@ -9,7 +8,7 @@ function User() {
   const firstName=useSelector((state)=> state.firstName)
   const lastName=useSelector((state)=> state.lastName)
 
-  const dispatch= useDispatch()
+  
   
 
  

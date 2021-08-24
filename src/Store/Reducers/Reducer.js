@@ -8,6 +8,7 @@ const initialState = (
         token:'',
         error:'',
         loading:false,
+        remember:false,
         }
     )
 
@@ -25,9 +26,33 @@ function userinfoReducer(state= initialState,action){
                 id:action.id,
                 auth:action.auth,
                 token:action.token,
-                error:action.error
+                remember:action.remember,
+                loading:false,
             }
             return nextState
+
+        case 'IS_LOADING':
+            nextState={
+                ...state,
+                loading:true,
+            }
+            return nextState
+
+        case 'LOG_OUT':
+            nextState={
+                ...state,
+                auth:false,
+            }
+            return nextState
+
+        case 'ERROR':
+            nextState={
+                ...state,
+                loading:false,
+                error:action.error,
+            }
+            return nextState
+            
         default:
             return state
     }
