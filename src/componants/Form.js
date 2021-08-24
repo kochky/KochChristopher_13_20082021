@@ -6,17 +6,29 @@ import { useSelector } from "react-redux";
  
 
 
-async function loginUser(tokenBody) {
+async function loginUser(data) {
 
   return fetch('http://localhost:3001/api/v1/user/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(tokenBody)
+    body: JSON.stringify(data)
   })
     .then(data => data.json())
 }
+
+async function postToken(tokenBody) {
+
+  return fetch('http://localhost:3001/api/v1/user/profile', {
+    method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${tokenBody}`
+        },
+  })
+    .then(data => data.json())
+}
+
 
 function Form () {
 
@@ -25,13 +37,19 @@ function Form () {
   const [remember, setRemember] = useState(false)
     
   const dispatch= useDispatch()
+  var tokenBody=useSelector((state)=> state.token)
+  const errorMessage=useSelector((state)=> state.error)
+  const auth= useSelector((state)=> state.auth)
 
   const handleSubmit = async e => {
     e.preventDefault();
     const token = await loginUser({ email,password});
-
-    if (token.status ===200) {
-      dispatch({ type: 'FETCH_DATA', error:false,auth:true, email:email , token:token.body.token,error:null})
+    dispatch({ type: 'FETCH_DATA',token:token.body.token})
+    if (token.status ===200) {console.log(token)
+      const userInfo= await postToken(tokenBody)
+       if (userInfo.status===200){console.log(userInfo)
+        dispatch({ type: 'FETCH_DATA',auth:true, email:email , error:null, firstName:userInfo.body.firstName, lastName: userInfo.body.lastName, id: userInfo.body.id})
+       }
     }
     else if (token.status ===400){
         dispatch({ type: 'FETCH_DATA', error:"Erreur dans l'username et/ou le password"})
@@ -39,9 +57,7 @@ function Form () {
     }else { dispatch({ type: 'FETCH_DATA', error:"Erreur serveur !"})
       }    
   }
-  
-    const errorMessage=useSelector((state)=> state.error)
-    const auth= useSelector((state)=> state.auth)
+    
 
     return !auth?(
 

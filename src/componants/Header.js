@@ -8,11 +8,11 @@ import { useSelector, useDispatch } from "react-redux";
 
 
 function Navbar(){
+  const firstName=useSelector((state)=> state.firstName)
 
   const auth= useSelector((state)=> state.auth)
   const dispatch= useDispatch()
-  const name= useSelector((state)=> state.firstName)
-  console.log(name)
+
 
   function handleClick(){
     dispatch({ type: 'FETCH_DATA', auth:false})
@@ -32,7 +32,7 @@ function Navbar(){
         <div>
         <Link class="main-nav-item" to='/user'>
           <i class="fa fa-user-circle"></i>
-          Tony
+          {firstName}
         </Link>
         <Link  class="main-nav-item" to='/' onClick={handleClick}>
           <i class="fa fa-sign-out"></i>
