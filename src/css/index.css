@@ -295,3 +295,37 @@ body {
     width: 200px;
   }
 }
+
+.errorcontainer {
+  box-sizing:border-box;
+  width:100%;
+  margin:0 auto;
+  background:#12002b;
+  height:90vh;
+  padding-top:10%;
+}
+
+.errortitle {
+  color:#00bc77;
+  font-size: 288px ;
+  font-weight: 700;
+  margin:0 auto;
+  margin-bottom: 66px;
+  width: min-content;
+}
+
+.erroroups {
+  color:#00bc77;
+  font-size: 36px;
+  margin:0 auto;
+  margin-bottom: 180px;
+  max-width:875px;
+  padding:0 10%
+}
+.errorlink {
+  display:block;
+  font-size: 18px;
+  color:#00bc77;
+  margin:0 auto;
+  width:285px;
+}
