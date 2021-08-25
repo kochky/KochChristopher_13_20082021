@@ -1,16 +1,4 @@
-
-
-
-export const LOAD_TOKEN= 'LOAD_TOKEN'
-export const LOAD_TOKEN_SUCCES= 'LOAD_TOKEN_SUCCES'
-export const LOAD_TOKEN_USER_SUCCES= 'LOAD_TOKEN_USER_SUCCES'
-export const LOAD_TOKEN_ERROR= 'LOAD_TOKEN_ERROR'
-export const LOAD_CHANGE_SUCCES= 'LOAD_CHANGE_SUCCES'
-export const REMEMBER= 'REMEMBER'
-export const LOG_OUT= 'LOG_OUT'
-
-
-
+import { LOAD_TOKEN, LOAD_TOKEN_SUCCES, LOAD_TOKEN_ERROR,REMEMBER,LOAD_TOKEN_USER_SUCCES,LOAD_CHANGE_SUCCES,LOG_OUT } from '../../constants/actionsType'
 
 const initialState = (
     {   email:'',
@@ -23,11 +11,8 @@ const initialState = (
         error:'',
         loading:false,
         remember:false
-        
         }
     )
-
-
 
 function userinfoReducer(state= initialState,action){
     switch(action.type) {
@@ -79,8 +64,6 @@ function userinfoReducer(state= initialState,action){
         default:
             return state
     }
-
-
 }
 
 export default userinfoReducer
