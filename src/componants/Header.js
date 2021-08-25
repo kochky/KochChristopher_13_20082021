@@ -30,12 +30,12 @@ function Navbar(){
     )}else {
       return (
         <div>
-        <Link class="main-nav-item" to='/user'>
-          <i class="fa fa-user-circle"></i>
+        <Link className="main-nav-item" to='/user'>
+          <i className="fa fa-user-circle"></i>
           {firstName}
         </Link>
-        <Link  class="main-nav-item" to='/' onClick={handleClick}>
-          <i class="fa fa-sign-out"></i>
+        <Link  className="main-nav-item" to='/' onClick={handleClick}>
+          <i className="fa fa-sign-out"></i>
           Sign Out
         </Link>
       </div>

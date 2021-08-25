@@ -1,6 +1,18 @@
 
+
+
+export const LOAD_TOKEN= 'LOAD_TOKEN'
+export const LOAD_TOKEN_SUCCES= 'LOAD_TOKEN_SUCCES'
+export const LOAD_TOKEN_ERROR= 'LOAD_TOKEN_ERROR'
+
+export const REMEMBER= 'REMEMBER'
+export const LOG_OUT= 'LOG_OUT'
+
+
+
+
 const initialState = (
-    {   email:'',
+    {   infos:[],
         firstName:'',
         lastName:'',
         id:'',
@@ -8,7 +20,7 @@ const initialState = (
         token:'',
         error:'',
         loading:false,
-        remember:false,
+        
         }
     )
 
@@ -17,42 +29,39 @@ const initialState = (
 function userinfoReducer(state= initialState,action){
     let nextState
     switch(action.type) {
-        case 'FETCH_DATA':
-            nextState = { 
+        case LOAD_TOKEN_SUCCES:
+            return { 
                 ...state,
-                 email: action.email,
-                firstName:action.firstName,
-                lastName:action.lastName,
-                id:action.id,
-                auth:action.auth,
-                token:action.token,
-                remember:action.remember,
+                token: action.payload,
                 loading:false,
+                auth:true,
             }
-            return nextState
+            
+        case REMEMBER:
+            return {
+                ...state,
+                infos: action.email,
+                password: action.password
+            }
 
-        case 'IS_LOADING':
-            nextState={
+        case LOAD_TOKEN:
+            return {
                 ...state,
                 loading:true,
             }
-            return nextState
+        
+        case LOG_OUT:
+          
+            return initialState
 
-        case 'LOG_OUT':
-            nextState={
-                ...state,
-                auth:false,
-            }
-            return nextState
-
-        case 'ERROR':
+        case LOAD_TOKEN_ERROR:
             nextState={
                 ...state,
                 loading:false,
-                error:action.error,
+                error:action.payload,
             }
             return nextState
-            
+           
         default:
             return state
     }

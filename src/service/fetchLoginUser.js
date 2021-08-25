@@ -1,6 +1,6 @@
-export default async function LoginUser(data) {
+export default function LoginUser(data) {
 
-    return fetch('http://localhost:3001/api/v1/user/login', {
+  return  fetch('http://localhost:3001/api/v1/user/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -8,6 +8,7 @@ export default async function LoginUser(data) {
       body: JSON.stringify(data)
     })
       .then(data => data.json())
+    
 
   }
   

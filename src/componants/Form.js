@@ -1,43 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Redirect } from "react-router-dom";
 import { connect} from 'react-redux'
 import { useDispatch } from 'react-redux';
 import { useSelector } from "react-redux";
 import LoginUser from '../service/fetchLoginUser'
 import PostToken from '../service/fetchPostToken'
+import { apiCall } from '../service/fetch';
+import { REMEMBER } from '../Store/Reducers/Reducer';
 
-
-function Form () {
-
+function Form ({state, apiData}) {
+  
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [remember, setRemember] = useState(false)
-    
-  const dispatch= useDispatch()
-  const tokenBody=useSelector((state)=> state.token)
+
   const errorMessage=useSelector((state)=> state.error)
   const auth= useSelector((state)=> state.auth)
-  const isLoading=useSelector((state)=> state.loading)
+  const abc= useSelector((state)=> state)
+  const dispatch= useDispatch()
+ 
 
   const handleSubmit = async e => {
     e.preventDefault();
-    dispatch({type:'IS_LOADING'})
-    const token = await LoginUser({ email,password});
-    if (token.status ===200) {
-      dispatch({ type: 'FETCH_DATA',token:token.body.token})
-      if (!isLoading){
-        var userInfo= await PostToken(tokenBody)
-        if (userInfo.status===200){
-          dispatch({ type: 'FETCH_DATA',auth:true, remember:remember, email:email , error:null, firstName:userInfo.body.firstName, lastName: userInfo.body.lastName, id: userInfo.body.id})
-       }
-      }
-    }
-    else if (token.status ===400){
-        dispatch({ type: 'ERROR', error:"Erreur dans l'username et/ou le password"})
-     
-    }else { dispatch({ type: 'ERROR', error:"Erreur serveur ! Réactualiser la page !"})
-      }    
-  }
+   
+
+    apiData({email,password},remember)
+    console.log(auth)
+   
+   }
     
 
     return !auth?(
@@ -52,7 +42,7 @@ function Form () {
           <input required type="password" id="password" name="password" value={password}  onChange={e => setPassword(e.target.value)}/>
         </div>
         <div className="input-remember">
-          <input type="checkbox" id="remember-me" name="remember" value={remember} onChange={e => setRemember(e.target.value)} />
+          <input type="checkbox" id="remember-me" name="remember" value={remember} onChange={e => setRemember(e.target.checked)} />
           <label htmlFor="remember-me" >Remember me</label>
         </div>
         <div className="error-message">{errorMessage}</div>
@@ -62,8 +52,14 @@ function Form () {
     
 }
 
-const mapStateToProps= (state) => { 
+const mapStateToProps= state => { 
     return state
 }
 
-export default connect(mapStateToProps)(Form)
+const mapDispatchToProps= dispatch=>{
+  return {
+    apiData:(user,remember)=>dispatch(apiCall(user,remember))
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Form)
