@@ -1,15 +1,17 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { useSelector,connect } from "react-redux";
+import { apiCallUserInfo } from '../service/fetch';
 
 
-function User() {
+function User({state,apiUserInfo}) {
   
+  const firstName=useSelector((state)=> state.firstname)
+  const lastName=useSelector((state)=> state.lastname)
+  const tokenValue=useSelector((state)=> state.token)
 
-  const firstName=useSelector((state)=> state.firstName)
-  const lastName=useSelector((state)=> state.lastName)
-
-  
-  
+  useEffect(()=>{
+    apiUserInfo(tokenValue)
+  },[apiUserInfo])
 
  
     return (
@@ -56,4 +58,10 @@ const mapStateToProps= (state) => {
     return state
 }
 
-export default connect(mapStateToProps)(User)
+const mapDispatchToProps= dispatch=>{
+  return {
+    apiUserInfo:(token)=>dispatch(apiCallUserInfo(token))
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(User)

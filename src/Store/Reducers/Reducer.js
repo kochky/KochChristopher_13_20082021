@@ -3,6 +3,7 @@
 
 export const LOAD_TOKEN= 'LOAD_TOKEN'
 export const LOAD_TOKEN_SUCCES= 'LOAD_TOKEN_SUCCES'
+export const LOAD_TOKEN_USER_SUCCES= 'LOAD_TOKEN_USER_SUCCES'
 export const LOAD_TOKEN_ERROR= 'LOAD_TOKEN_ERROR'
 
 export const REMEMBER= 'REMEMBER'
@@ -12,14 +13,16 @@ export const LOG_OUT= 'LOG_OUT'
 
 
 const initialState = (
-    {   infos:[],
-        firstName:'',
-        lastName:'',
+    {   email:'',
+        password:'',
+        firstname:'',
+        lastname:'',
         id:'',
         auth:false,
         token:'',
         error:'',
         loading:false,
+        remember:false
         
         }
     )
@@ -27,41 +30,44 @@ const initialState = (
 
 
 function userinfoReducer(state= initialState,action){
-    let nextState
     switch(action.type) {
         case LOAD_TOKEN_SUCCES:
             return { 
                 ...state,
                 token: action.payload,
+                email:action.email,
+                password:action.password,
                 loading:false,
                 auth:true,
+                error:''
             }
-            
+        case LOAD_TOKEN_USER_SUCCES:
+            return { 
+                ...state,
+                firstname: action.firstname,
+                lastname: action.lastname,
+                id:action.id,
+                error:'',
+                loading:false,   
+            }
         case REMEMBER:
             return {
                 ...state,
-                infos: action.email,
-                password: action.password
+                remember:true
             }
-
         case LOAD_TOKEN:
             return {
                 ...state,
                 loading:true,
             }
-        
         case LOG_OUT:
-          
             return initialState
-
         case LOAD_TOKEN_ERROR:
-            nextState={
+            return{
                 ...state,
                 loading:false,
                 error:action.payload,
             }
-            return nextState
-           
         default:
             return state
     }

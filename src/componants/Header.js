@@ -8,7 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 
 function Navbar(){
-  const firstName=useSelector((state)=> state.firstName)
+  const firstName=useSelector((state)=> state.firstname)
 
   const auth= useSelector((state)=> state.auth)
   const dispatch= useDispatch()

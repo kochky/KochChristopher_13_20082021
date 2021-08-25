@@ -1,12 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
 import { Redirect } from "react-router-dom";
-import { connect} from 'react-redux'
-import { useDispatch } from 'react-redux';
-import { useSelector } from "react-redux";
-import LoginUser from '../service/fetchLoginUser'
-import PostToken from '../service/fetchPostToken'
-import { apiCall } from '../service/fetch';
-import { REMEMBER } from '../Store/Reducers/Reducer';
+import { useSelector,connect } from "react-redux";
+import { apiCallToken } from '../service/fetch';
+
 
 function Form ({state, apiData}) {
   
@@ -16,20 +12,13 @@ function Form ({state, apiData}) {
 
   const errorMessage=useSelector((state)=> state.error)
   const auth= useSelector((state)=> state.auth)
-  const abc= useSelector((state)=> state)
-  const dispatch= useDispatch()
- 
 
   const handleSubmit = async e => {
     e.preventDefault();
-   
-
+    //dispatch({Type:})
     apiData({email,password},remember)
-    console.log(auth)
-   
    }
     
-
     return !auth?(
 
       <form onSubmit={handleSubmit}>
@@ -58,7 +47,7 @@ const mapStateToProps= state => {
 
 const mapDispatchToProps= dispatch=>{
   return {
-    apiData:(user,remember)=>dispatch(apiCall(user,remember))
+    apiData:(user,remember)=>dispatch(apiCallToken(user,remember))
   }
 }
 
