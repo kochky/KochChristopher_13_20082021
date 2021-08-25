@@ -1,7 +1,7 @@
 import React, { useState} from 'react';
 import { Redirect } from "react-router-dom";
 import { useSelector,connect } from "react-redux";
-import { apiCallToken } from '../service/fetch';
+import { apiCallToken } from '../constants/fetch';
 
 
 function Form ({state, apiData}) {
@@ -15,7 +15,6 @@ function Form ({state, apiData}) {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    //dispatch({Type:})
     apiData({email,password},remember)
    }
     

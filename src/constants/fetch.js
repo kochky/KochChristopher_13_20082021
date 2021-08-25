@@ -1,4 +1,4 @@
-import { LOAD_TOKEN, LOAD_TOKEN_SUCCES, LOAD_TOKEN_ERROR,REMEMBER,LOAD_TOKEN_USER_SUCCES } from "../Store/Reducers/Reducer"
+import { LOAD_TOKEN, LOAD_TOKEN_SUCCES, LOAD_TOKEN_ERROR,REMEMBER,LOAD_TOKEN_USER_SUCCES,LOAD_CHANGE_SUCCES } from "../Store/Reducers/Reducer"
 import axios from 'axios'
 
 export const loadToken= ()=> {
@@ -19,11 +19,18 @@ export const loadTokenUserInfoSucces= (firstData,LastData,idData,emailData)=> {
         type: LOAD_TOKEN_USER_SUCCES,
         firstname:firstData,
         lastname:LastData,
-        id:idData,
-       
-      
+        id:idData,     
     }
 }
+export const loadChangeInfoSucces= (firstData,LastData,idData,emailData)=> {
+    return {
+        type: LOAD_CHANGE_SUCCES,
+        firstname:firstData,
+        lastname:LastData,
+        
+    }
+}
+
 export const loadTokenRememberSucces= ()=> {
     return {
         type: REMEMBER,          
@@ -37,7 +44,8 @@ export const loadTokenError= (error)=> {
 }
 
 
-export const apiCallToken = (user,remember) => {console.log(user)
+
+export const apiCallToken = (user,remember) => {
 	return (dispatch) => {
         dispatch(loadToken()) 
         axios.post('http://localhost:3001/api/v1/user/login',user)
@@ -48,8 +56,8 @@ export const apiCallToken = (user,remember) => {console.log(user)
             dispatch(loadTokenSucces(res.data.body.token,user.email,user.password))
         })
         .catch(error => {
-            if(error.response.status==400){
-                dispatch(loadTokenError("L'adresse mail et/ou le mot de passe sont erronés"))
+            if(error.response.status===400){
+                dispatch(loadTokenError("Erreur"))
             }else {
                 dispatch(loadTokenError("Erreur provenant du serveur !"))
             }     
@@ -61,20 +69,37 @@ export const apiCallUserInfo = (token) => {
  
 	return (dispatch) => {
         dispatch(loadToken())
-        axios.post('http://localhost:3001/api/v1/user/profile',
-        {},
+        axios.post('http://localhost:3001/api/v1/user/profile',{},
         { headers: { Authorization: `Bearer ${token}` } })
-        .then (res=> { 
+        .then (res=> { console.log(res)
             dispatch(loadTokenUserInfoSucces(res.data.body.firstName,res.data.body.lastName,res.data.body.id))
         })
         .catch(error => {
-            if(error.response.status==400){
-                dispatch(loadTokenError("Erreur 400, problème venant du"))
+            if(error.response.status===400){
+                dispatch(loadTokenError("Erreur 400, problème venant du token"))
             }else {
                 dispatch(loadTokenError("Erreur provenant du serveur !"))
             } 
         })    
     }
 }
-        
+    
+export const apiPutUserInfo = (body,token) => {
+    console.log(token)
+	return (dispatch) => {
+        dispatch(loadToken())
+        axios.put('http://localhost:3001/api/v1/user/profile',body,
+        { headers: { Authorization: `Bearer ${token}` } })
+        .then (res=> { console.log(res)
+            dispatch(loadChangeInfoSucces(res.data.body.firstName,res.data.body.lastName))
+        })
+        .catch(error => {
+            if(error.response.status===400){
+                dispatch(loadTokenError("Erreur 400, problème venant du token"))
+            }else {
+                dispatch(loadTokenError("Erreur provenant du serveur !"))
+            } 
+        })    
+    }
+}
   

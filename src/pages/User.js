@@ -1,25 +1,62 @@
-import React, {useEffect} from 'react';
+import React, {useEffect,useState} from 'react';
 import { useSelector,connect } from "react-redux";
-import { apiCallUserInfo } from '../service/fetch';
+import { apiCallUserInfo,apiPutUserInfo } from '../constants/fetch';
 
 
-function User({state,apiUserInfo}) {
+function User({state,apiUserInfo,apiChangeInfo}) {
   
-  const firstName=useSelector((state)=> state.firstname)
-  const lastName=useSelector((state)=> state.lastname)
+  const firstname=useSelector((state)=> state.firstname)
+  const lastname=useSelector((state)=> state.lastname)
   const tokenValue=useSelector((state)=> state.token)
+  const errorMessage=useSelector((state)=> state.error)
+
+  const [isOpen,setIsOpen]=useState(false)
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
 
   useEffect(()=>{
     apiUserInfo(tokenValue)
-  },[apiUserInfo])
+  },[state])
 
+  const handleClick = async e => {
+    isOpen? (setIsOpen(false)) :(setIsOpen(true))
+    console.log(isOpen)
  
+  }
+  const handleSubmit = async e => {
+    e.preventDefault();
+    apiChangeInfo({firstName,lastName},tokenValue)
+    if(errorMessage==''){
+      setIsOpen(false)
+    }
+   }
+    
+
     return (
        <main className="main bg-dark">
       <div className="header">
-        <h1>Welcome back<br />{firstName} {lastName} !</h1>
-        <button className="edit-button">Edit Name</button>
+        <h1>Welcome back<br />{firstname} {lastname} !</h1>
+        <button className="edit-button" onClick={handleClick}>Edit Name</button>
       </div>
+
+      {isOpen? (
+        <div className='edit-profile'>
+          <form className='edit-form'onSubmit={handleSubmit}>
+            <div className="input-wrapper">
+              <label htmlFor="firstname">Firstname</label>
+              <input required type="text" id="firstname" name="firstname" value={firstName} onChange={e => setFirstName(e.target.value)} />
+            </div>
+            <div className="input-wrapper">
+              <label htmlFor="lastname">Lastname</label>
+              <input required type="text" id="lastname" name="lastname" value={lastName}  onChange={e => setLastName(e.target.value)}/>
+            </div>
+            <div>{errorMessage}</div>
+            <button className="sign-in-button">Save</button>
+          </form>
+        </div>)
+
+        
+        :''}
       <h2 className="sr-only">Accounts</h2>
       <section className="account">
         <div className="account-content-wrapper">
@@ -60,7 +97,8 @@ const mapStateToProps= (state) => {
 
 const mapDispatchToProps= dispatch=>{
   return {
-    apiUserInfo:(token)=>dispatch(apiCallUserInfo(token))
+    apiUserInfo:(token)=>dispatch(apiCallUserInfo(token)),
+    apiChangeInfo:(body,token)=>dispatch(apiPutUserInfo(body,token))
   }
 }
 
