@@ -16,7 +16,7 @@ export const apiCallToken = (user,remember) => {
         })
         .catch(error => {
             if(error.response.status===400){
-                dispatch(loadTokenError("Erreur"))
+                dispatch(loadTokenError("L'email et/ou le mot de passe sont erronés"))
             }else {
                 dispatch(loadTokenError("Erreur provenant du serveur !"))
             }     

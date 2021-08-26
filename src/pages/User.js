@@ -4,30 +4,42 @@ import { apiCallUserInfo} from '../constants/fetchUserInfo';
 import { apiPutUserInfo } from '../constants/fetchChangeInfo';
 import AccountItem from '../componants/AccountItem'
 
-function User({state,apiUserInfo,apiChangeInfo}) {
+function User({apiUserInfo,apiChangeInfo}) {
   
-  const firstname=useSelector((state)=> state.firstname)
-  const lastname=useSelector((state)=> state.lastname)
-  const tokenValue=useSelector((state)=> state.token)
-  const errorMessage=useSelector((state)=> state.error)
+  const userInfos= useSelector((state)=>state)
 
   const [isOpen,setIsOpen]=useState(false)
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-
+ 
   useEffect(()=>{
-    apiUserInfo(tokenValue)
-  },[apiUserInfo])
+    apiUserInfo(userInfos.token,userInfos)        
+  },[])
+
+useSelector((state)=>{
+  if(state.remember){
+    localStorage.setItem("email", state.email);
+    localStorage.setItem("password",state.password);
+    localStorage.setItem("firstname", state.firstname);
+    localStorage.setItem("lastname",state.lastname);
+    localStorage.setItem("id", state.id);
+    localStorage.setItem("auth", state.auth);
+    localStorage.setItem("token", state.token);
+    localStorage.setItem("error", state.error);
+    localStorage.setItem("loading", state.loading);
+    localStorage.setItem("remember", state.remember);
+}
+  }
+)
 
   const handleClick = async e => {
     isOpen? (setIsOpen(false)) :(setIsOpen(true))
-    console.log(isOpen)
- 
   }
+
   const handleSubmit = async e => {
     e.preventDefault();
-    apiChangeInfo({firstName,lastName},tokenValue)
-    if(errorMessage===''){
+    apiChangeInfo({firstName,lastName},userInfos.token)
+    if(userInfos.error===''){
       setIsOpen(false)
     }
    }
@@ -36,7 +48,7 @@ function User({state,apiUserInfo,apiChangeInfo}) {
     return (
        <main className="main bg-dark">
       <div className="header">
-        <h1>Welcome back<br />{firstname} {lastname} !</h1>
+        <h1>Welcome back<br />{userInfos.firstname} {userInfos.lastname} !</h1>
         <button className="edit-button" onClick={handleClick}>Edit Name</button>
       </div>
 
@@ -51,7 +63,7 @@ function User({state,apiUserInfo,apiChangeInfo}) {
               <label htmlFor="lastname">Lastname</label>
               <input required type="text" id="lastname" name="lastname" value={lastName}  onChange={e => setLastName(e.target.value)}/>
             </div>
-            <div>{errorMessage}</div>
+            <div>{userInfos.error}</div>
             <button className="sign-in-button">Save</button>
           </form>
         </div>)
@@ -80,7 +92,7 @@ const mapStateToProps= (state) => {
 
 const mapDispatchToProps= dispatch=>{
   return {
-    apiUserInfo:(token)=>dispatch(apiCallUserInfo(token)),
+    apiUserInfo:(token,data)=>dispatch(apiCallUserInfo(token,data)),
     apiChangeInfo:(body,token)=>dispatch(apiPutUserInfo(body,token))
   }
 }

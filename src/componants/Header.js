@@ -16,6 +16,7 @@ function Navbar(){
 
   function handleClick(){
     dispatch({ type: 'LOG_OUT'})
+    localStorage.clear()
     return (<Redirect to='/' />)
 
   }

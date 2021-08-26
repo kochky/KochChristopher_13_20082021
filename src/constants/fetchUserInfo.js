@@ -3,13 +3,15 @@ import {loadToken,loadTokenUserInfoSucces,loadTokenError} from './actions'
 
 
 
-export const apiCallUserInfo = (token) => {
- 
+
+
+export const apiCallUserInfo = (token,state) => {
+  
 	return (dispatch) => {
         dispatch(loadToken())
         axios.post('http://localhost:3001/api/v1/user/profile',{},
         { headers: { Authorization: `Bearer ${token}` } })
-        .then (res=> { console.log(res)
+        .then (res=> { 
             dispatch(loadTokenUserInfoSucces(res.data.body.firstName,res.data.body.lastName,res.data.body.id))
         })
         .catch(error => {

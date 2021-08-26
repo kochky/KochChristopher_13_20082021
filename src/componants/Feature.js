@@ -5,8 +5,7 @@ import featureicon from '../img/icon-security.png'
 import FeatureItem from './FeatureItem'
 
 function Feature (){
-    console.log(chaticon)
-    console.log(featureicon)
+
     return (
         <section className="features">
             <h2 className="sr-only">Features</h2>

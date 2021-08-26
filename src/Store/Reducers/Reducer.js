@@ -1,6 +1,20 @@
 import { LOAD_TOKEN, LOAD_TOKEN_SUCCES, LOAD_TOKEN_ERROR,REMEMBER,LOAD_TOKEN_USER_SUCCES,LOAD_CHANGE_SUCCES,LOG_OUT } from '../../constants/actionsType'
 
-const initialState = (
+console.log(Object.keys(localStorage))
+const initialState = Object.keys(localStorage).length>1?(
+    
+    {   email:localStorage.getItem("email"),
+        password:localStorage.getItem("password"),
+        firstname:localStorage.getItem("firstname"),
+        lastname:localStorage.getItem("lastname"),
+        id:localStorage.getItem("id"),
+        auth:true,
+        token:localStorage.getItem("token"),
+        error:'',
+        loading:false,
+        remember:true
+    }
+):( 
     {   email:'',
         password:'',
         firstname:'',
@@ -11,8 +25,10 @@ const initialState = (
         error:'',
         loading:false,
         remember:false
-        }
-    )
+    }
+)
+
+
 
 function userinfoReducer(state= initialState,action){
     switch(action.type) {
@@ -54,7 +70,18 @@ function userinfoReducer(state= initialState,action){
                 loading:true,
             }
         case LOG_OUT:
-            return initialState
+            return {
+                email:'',
+                password:'',
+                firstname:'',
+                lastname:'',
+                id:'',
+                auth:false,
+                token:'',
+                error:'',
+                loading:false,
+                remember:false
+            }
         case LOAD_TOKEN_ERROR:
             return{
                 ...state,

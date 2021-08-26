@@ -4,6 +4,8 @@ import userinfoReducer from './Reducers/Reducer'
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 
-export default createStore(userinfoReducer, 
+ const store = createStore(userinfoReducer, 
     composeWithDevTools( applyMiddleware(thunk))
     );
+
+export default store
