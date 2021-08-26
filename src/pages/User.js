@@ -16,21 +16,6 @@ function User({apiUserInfo,apiChangeInfo}) {
     apiUserInfo(userInfos.token,userInfos)        
   },[])
 
-useSelector((state)=>{
-  if(state.remember){
-    localStorage.setItem("email", state.email);
-    localStorage.setItem("password",state.password);
-    localStorage.setItem("firstname", state.firstname);
-    localStorage.setItem("lastname",state.lastname);
-    localStorage.setItem("id", state.id);
-    localStorage.setItem("auth", state.auth);
-    localStorage.setItem("token", state.token);
-    localStorage.setItem("error", state.error);
-    localStorage.setItem("loading", state.loading);
-    localStorage.setItem("remember", state.remember);
-}
-  }
-)
 
   const handleClick = async e => {
     isOpen? (setIsOpen(false)) :(setIsOpen(true))
