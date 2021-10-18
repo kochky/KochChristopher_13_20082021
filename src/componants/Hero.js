@@ -13,10 +13,7 @@ function Hero () {
           <p className="text">Open a savings account with Argent Bank today!</p>
         </section>
       </div>
-
     )
-
-
 }
 
 export default Hero

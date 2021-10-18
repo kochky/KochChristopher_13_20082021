@@ -19,12 +19,10 @@ import ErrorPage from '../pages/404'
 function App () {
  
   useSelector((state)=>{
-    const userData={email:state.email,password:state.password,firstname:state.firstname,lastname:state.lastname,id:state.id,auth:state.auth,token:state.token,error:state.error,loading:state.loading,remember:state.remember}
-
       if(state.remember){
-        localStorage.setItem("user",JSON.stringify(userData))
+        localStorage.setItem("user",JSON.stringify(state))
       }else if (!state.remember && Object.keys(localStorage).length===0) {
-        sessionStorage.setItem("user",JSON.stringify(userData))
+        sessionStorage.setItem("user",JSON.stringify(state))
         }
     }
   )

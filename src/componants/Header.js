@@ -43,7 +43,6 @@ function Navbar(){
 }
 
 function Header() {
-
     return(
         <nav className="main-nav">
           <Link  to="/" className="main-nav-logo">
@@ -56,7 +55,6 @@ function Header() {
           </Link>
           <Navbar />
         </nav>
-
     )
 }
 

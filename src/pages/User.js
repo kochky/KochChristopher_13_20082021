@@ -7,7 +7,6 @@ import AccountItem from '../componants/AccountItem'
 function User({apiUserInfo,apiChangeInfo}) {
   
   const userInfos= useSelector((state)=>state)
-
   const [isOpen,setIsOpen]=useState(false)
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -15,7 +14,6 @@ function User({apiUserInfo,apiChangeInfo}) {
   useEffect(()=>{
     apiUserInfo(userInfos.token,userInfos)        
   },[])
-
 
   const handleClick = async e => {
     isOpen? (setIsOpen(false)) :(setIsOpen(true))
@@ -51,8 +49,6 @@ function User({apiUserInfo,apiChangeInfo}) {
             <button className="sign-in-button">Save</button>
           </form>
         </div>)
-
-        
         :''}
       <h2 className="sr-only">Accounts</h2>
       <AccountItem

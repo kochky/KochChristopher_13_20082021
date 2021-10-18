@@ -4,36 +4,9 @@ import { LOAD_TOKEN, LOAD_TOKEN_SUCCES, LOAD_TOKEN_ERROR,REMEMBER,LOAD_TOKEN_USE
 function initialState () {
 
     if (Object.keys(localStorage).length>0 ){
-        let localUser= localStorage.getItem("user")
-        let localJson= JSON.parse(localUser)
-        return  { 
-            email:localJson.email,
-            password:localJson.password,
-            firstname:localJson.firstname,
-            lastname:localJson.lastname,
-            id:localJson.id,
-            auth:localJson.auth,
-            token:localJson.token,
-            error:'',
-            loading:false,
-            remember:true
-        }
+        return JSON.parse(localStorage.getItem("user"))
     } else if (Object.keys(sessionStorage).length>0 ){
-        let storageUser= sessionStorage.getItem("user")
-        let storageJson= JSON.parse(storageUser)
-        return(
-            {
-            email:storageJson.email,
-            password:storageJson.password,
-            firstname:storageJson.firstname,
-            lastname:storageJson.lastname,
-            id:storageJson.id,
-            auth:storageJson.auth,
-            token:storageJson.token,
-            error:'',
-            loading:false,
-            remember:false
-        })
+        return JSON.parse(sessionStorage.getItem("user"))
     } else {
         return (
         {   email:'',
@@ -49,8 +22,6 @@ function initialState () {
         })
     }
 }
-
-
 
 function userinfoReducer(state= initialState(),action){
     switch(action.type) {
