@@ -2,7 +2,6 @@ import axios from 'axios'
 import {loadToken,loadChangeInfoSucces,loadTokenError} from './actions'
 
 export const apiPutUserInfo = (body,token) => {
-    console.log(token)
 	return (dispatch) => {
         dispatch(loadToken())
         axios.put('http://localhost:3001/api/v1/user/profile',body,

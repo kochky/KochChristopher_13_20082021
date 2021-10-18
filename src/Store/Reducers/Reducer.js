@@ -2,31 +2,37 @@ import { LOAD_TOKEN, LOAD_TOKEN_SUCCES, LOAD_TOKEN_ERROR,REMEMBER,LOAD_TOKEN_USE
 
 
 function initialState () {
-    if (Object.keys(localStorage).length>1 ){
-        return  {  
-             email:localStorage.getItem("email"),
-            password:localStorage.getItem("password"),
-            firstname:localStorage.getItem("firstname"),
-            lastname:localStorage.getItem("lastname"),
-            id:localStorage.getItem("id"),
-            auth:JSON.parse(localStorage.getItem("auth")),
-            token:localStorage.getItem("token"),
+
+    if (Object.keys(localStorage).length>0 ){
+        let localUser= localStorage.getItem("user")
+        let localJson= JSON.parse(localUser)
+        return  { 
+            email:localJson.email,
+            password:localJson.password,
+            firstname:localJson.firstname,
+            lastname:localJson.lastname,
+            id:localJson.id,
+            auth:localJson.auth,
+            token:localJson.token,
             error:'',
             loading:false,
             remember:true
         }
-    } else if (Object.keys(sessionStorage).length>1 ){
+    } else if (Object.keys(sessionStorage).length>0 ){
+        let storageUser= sessionStorage.getItem("user")
+        let storageJson= JSON.parse(storageUser)
         return(
-            {   email:sessionStorage.getItem("email"),
-            password:sessionStorage.getItem("password"),
-            firstname:sessionStorage.getItem("firstname"),
-            lastname:sessionStorage.getItem("lastname"),
-            id:sessionStorage.getItem("id"),
-            auth:JSON.parse(sessionStorage.getItem("auth")),
-            token:sessionStorage.getItem("token"),
+            {
+            email:storageJson.email,
+            password:storageJson.password,
+            firstname:storageJson.firstname,
+            lastname:storageJson.lastname,
+            id:storageJson.id,
+            auth:storageJson.auth,
+            token:storageJson.token,
             error:'',
             loading:false,
-            remember:true
+            remember:false
         })
     } else {
         return (

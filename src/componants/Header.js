@@ -6,19 +6,17 @@ import { connect} from 'react-redux'
 import { useSelector, useDispatch } from "react-redux";
 
 
-
 function Navbar(){
   const firstName=useSelector((state)=> state.firstname)
-
   const auth= useSelector((state)=> state.auth)
   const dispatch= useDispatch()
-
 
   function handleClick(){
     dispatch({ type: 'LOG_OUT'})
     localStorage.clear()
-    return (<Redirect to='/' />)
+    sessionStorage.clear()
 
+    return (<Redirect to='/' />)
   }
     if (!auth) {
       return (
@@ -40,10 +38,8 @@ function Navbar(){
           Sign Out
         </Link>
       </div>
-
       )
     }
-
 }
 
 function Header() {
@@ -62,12 +58,10 @@ function Header() {
         </nav>
 
     )
-
-
-
-
 }
+
 const mapStateToProps= (state) => { 
     return state
 }
+
 export default connect(mapStateToProps)(Header)

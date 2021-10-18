@@ -29,7 +29,6 @@ function User({apiUserInfo,apiChangeInfo}) {
     }
    }
     
-
     return (
        <main className="main bg-dark">
       <div className="header">

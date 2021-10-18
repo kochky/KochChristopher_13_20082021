@@ -1,9 +1,6 @@
 import axios from 'axios'
 import {loadToken,loadTokenSucces,loadTokenRememberSucces,loadTokenError} from './actions'
 
-
-
-
 export const apiCallToken = (user,remember) => {
 	return (dispatch) => {
         dispatch(loadToken()) 

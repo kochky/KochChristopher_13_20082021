@@ -19,35 +19,17 @@ import ErrorPage from '../pages/404'
 function App () {
  
   useSelector((state)=>{
-    if(state.remember){
-      localStorage.setItem("email", state.email);
-      localStorage.setItem("password",state.password);
-      localStorage.setItem("firstname", state.firstname);
-      localStorage.setItem("lastname",state.lastname);
-      localStorage.setItem("id", state.id);
-      localStorage.setItem("auth", state.auth);
-      localStorage.setItem("token", state.token);
-      localStorage.setItem("error", state.error);
-      localStorage.setItem("loading", state.loading);
-      localStorage.setItem("remember", state.remember);
-    }else {
-      sessionStorage.setItem("email", state.email);
-      sessionStorage.setItem("password",state.password);
-      sessionStorage.setItem("firstname", state.firstname);
-      sessionStorage.setItem("lastname",state.lastname);
-      sessionStorage.setItem("id", state.id);
-      sessionStorage.setItem("auth", state.auth);
-      sessionStorage.setItem("token", state.token);
-      sessionStorage.setItem("error", state.error);
-      sessionStorage.setItem("loading", state.loading);
-      sessionStorage.setItem("remember", state.remember);
-  
-      }
+    const userData={email:state.email,password:state.password,firstname:state.firstname,lastname:state.lastname,id:state.id,auth:state.auth,token:state.token,error:state.error,loading:state.loading,remember:state.remember}
+
+      if(state.remember){
+        localStorage.setItem("user",JSON.stringify(userData))
+      }else if (!state.remember && Object.keys(localStorage).length===0) {
+        sessionStorage.setItem("user",JSON.stringify(userData))
+        }
     }
   )
 
 const auth= useSelector((state)=> state.auth)
-
 
     if(!auth) {
       return (

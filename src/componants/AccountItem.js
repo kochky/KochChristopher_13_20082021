@@ -2,7 +2,6 @@
 function AccountItem ({title,amount,description}) {
 
     return (
-
         <section className="account">
         <div className="account-content-wrapper">
           <h3 className="account-title">{title}</h3>
@@ -13,11 +12,7 @@ function AccountItem ({title,amount,description}) {
           <button className="transaction-button">View transactions</button>
         </div>
       </section>
-
-
     )
-
-
 }
 
 export default AccountItem
