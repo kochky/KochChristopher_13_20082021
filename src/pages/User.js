@@ -12,7 +12,7 @@ function User(props) {
  
   useEffect(()=>{
     props.apiUserInfo(props.token,props)        
-  },[])
+  },[props])
 
   const handleClick = async e => {
     isOpen? (setIsOpen(false)) :(setIsOpen(true))
