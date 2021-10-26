@@ -2,22 +2,21 @@
 import React from 'react';
 import img from '../img/argentBankLogo.png';
 import { Link,Redirect  } from 'react-router-dom'
-import { connect} from 'react-redux'
-import { useSelector, useDispatch } from "react-redux";
+import { connect } from 'react-redux'
+import {useDispatch } from "react-redux";
 
 
-function Navbar(){
-  const firstName=useSelector((state)=> state.firstname)
-  const auth= useSelector((state)=> state.auth)
+function Navbar({auth, firstname}){
+
   const dispatch= useDispatch()
 
   function handleClick(){
     dispatch({ type: 'LOG_OUT'})
     localStorage.clear()
     sessionStorage.clear()
-
     return (<Redirect to='/' />)
   }
+
     if (!auth) {
       return (
         <div>
@@ -31,7 +30,7 @@ function Navbar(){
         <div>
         <Link className="main-nav-item" to='/user'>
           <i className="fa fa-user-circle"></i>
-          {firstName}
+          {firstname}
         </Link>
         <Link  className="main-nav-item" to='/' onClick={handleClick}>
           <i className="fa fa-sign-out"></i>
@@ -42,7 +41,7 @@ function Navbar(){
     }
 }
 
-function Header() {
+function Header(props) {
     return(
         <nav className="main-nav">
           <Link  to="/" className="main-nav-logo">
@@ -53,13 +52,13 @@ function Header() {
             />
             <h1 className="sr-only">Argent Bank</h1>
           </Link>
-          <Navbar />
+          <Navbar auth={props.auth} firstname={props.firstname}/>
         </nav>
     )
 }
 
 const mapStateToProps= (state) => { 
-    return state
+  return state
 }
 
 export default connect(mapStateToProps)(Header)

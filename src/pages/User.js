@@ -1,18 +1,17 @@
 import React, {useEffect,useState} from 'react';
-import { useSelector,connect } from "react-redux";
+import { connect } from "react-redux";
 import { apiCallUserInfo} from '../constants/fetchUserInfo';
 import { apiPutUserInfo } from '../constants/fetchChangeInfo';
 import AccountItem from '../componants/AccountItem'
 
-function User({apiUserInfo,apiChangeInfo}) {
-  
-  const userInfos= useSelector((state)=>state)
+function User(props) {
+
   const [isOpen,setIsOpen]=useState(false)
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
  
   useEffect(()=>{
-    apiUserInfo(userInfos.token,userInfos)        
+    props.apiUserInfo(props.token,props)        
   },[])
 
   const handleClick = async e => {
@@ -21,8 +20,8 @@ function User({apiUserInfo,apiChangeInfo}) {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    apiChangeInfo({firstName,lastName},userInfos.token)
-    if(userInfos.error===''){
+    props.apiChangeInfo({firstName,lastName},props.token)
+    if(props.error===''){
       setIsOpen(false)
     }
    }
@@ -30,7 +29,7 @@ function User({apiUserInfo,apiChangeInfo}) {
     return (
        <main className="main bg-dark">
       <div className="header">
-        <h1>Welcome back<br />{userInfos.firstname} {userInfos.lastname} !</h1>
+        <h1>Welcome back<br />{props.firstname} {props.lastname} !</h1>
         <button className="edit-button" onClick={handleClick}>Edit Name</button>
       </div>
 
@@ -45,7 +44,7 @@ function User({apiUserInfo,apiChangeInfo}) {
               <label htmlFor="lastname">Lastname</label>
               <input required type="text" id="lastname" name="lastname" value={lastName}  onChange={e => setLastName(e.target.value)}/>
             </div>
-            <div>{userInfos.error}</div>
+            <div>{props.error}</div>
             <button className="sign-in-button">Save</button>
           </form>
         </div>)

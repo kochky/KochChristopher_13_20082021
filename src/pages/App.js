@@ -1,11 +1,10 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   BrowserRouter as Router,
   Switch,
   Route
 } from "react-router-dom";
 import { connect} from 'react-redux'
-import { useSelector } from "react-redux";
 import '../css/index.css';
 import Home from './Home';
 import Header from '../componants/Header';
@@ -16,20 +15,17 @@ import ErrorPage from '../pages/404'
 
 
 
-function App () {
- 
-  useSelector((state)=>{
-      if(state.remember){
-        localStorage.setItem("user",JSON.stringify(state))
-      }else if (!state.remember && Object.keys(localStorage).length===0) {
-        sessionStorage.setItem("user",JSON.stringify(state))
+function App (props) {
+
+    useEffect(() => {
+      if(props.remember){
+        localStorage.setItem("user",JSON.stringify(props))
+      }else if (!props.remember && Object.keys(localStorage).length===0) {
+        sessionStorage.setItem("user",JSON.stringify(props))
         }
-    }
-  )
-
-const auth= useSelector((state)=> state.auth)
-
-    if(!auth) {
+    }, [props])
+     
+    if(!props.auth) {
       return (
         <Router>
         <Header />

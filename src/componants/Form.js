@@ -1,24 +1,20 @@
 import React, { useState} from 'react';
 import { Redirect } from "react-router-dom";
-import { useSelector,connect } from "react-redux";
+import {connect } from "react-redux";
 import { apiCallToken } from '../constants/fetchToken';
 
 
-function Form ({state, apiData}) {
-  
+function Form (props) {
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [remember, setRemember] = useState(false)
 
-  const errorMessage=useSelector((state)=> state.error)
-  const auth= useSelector((state)=> state.auth)
-
   const handleSubmit = async e => {
     e.preventDefault();
-    apiData({email,password},remember)
+    props.apiData({email,password},remember)
    }
-    
-    return !auth?(
+    return !props.auth?(
 
       <form onSubmit={handleSubmit}>
         <div className="input-wrapper">
@@ -33,11 +29,10 @@ function Form ({state, apiData}) {
           <input type="checkbox" id="remember-me" name="remember" value={remember} onChange={e => setRemember(e.target.checked)} />
           <label htmlFor="remember-me" >Remember me</label>
         </div>
-        <div className="error-message">{errorMessage}</div>
+        <div className="error-message">{props.error}</div>
         <button className="sign-in-button">Sign In</button>
       </form>
-      ):<Redirect to='/user' />
-    
+      ):<Redirect to='/user' /> 
 }
 
 const mapStateToProps= state => { 

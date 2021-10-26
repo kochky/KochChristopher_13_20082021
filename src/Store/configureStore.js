@@ -3,7 +3,6 @@ import thunk from 'redux-thunk'
 import userinfoReducer from './Reducers/Reducer'
 import { composeWithDevTools } from 'redux-devtools-extension';
 
-
  const store = createStore(userinfoReducer, 
     composeWithDevTools( applyMiddleware(thunk))
     );
