@@ -1,4 +1,4 @@
-import { LOAD_TOKEN, LOAD_TOKEN_SUCCES, LOAD_TOKEN_ERROR,REMEMBER,LOAD_TOKEN_USER_SUCCES,LOAD_CHANGE_SUCCES,LOG_OUT } from '../../constants/actionsType'
+import { LOAD_TOKEN, LOAD_TOKEN_SUCCES, LOAD_TOKEN_ERROR,REMEMBER,LOAD_USERINFOS_SUCCES,LOAD_UPDATE_USERINFOS_SUCCES,LOG_OUT } from '../../constants/actionsType'
 
 
 function initialState () {
@@ -25,6 +25,11 @@ function initialState () {
 
 function userinfoReducer(state= initialState(),action){
     switch(action.type) {
+        case LOAD_TOKEN:
+            return {
+                ...state,
+                loading:true,
+            }
         case LOAD_TOKEN_SUCCES:
             return { 
                 ...state,
@@ -35,7 +40,13 @@ function userinfoReducer(state= initialState(),action){
                 auth:true,
                 error:''
             }
-        case LOAD_TOKEN_USER_SUCCES:
+        case LOAD_TOKEN_ERROR:
+            return{
+                ...state,
+                loading:false,
+                error:action.payload,
+            }
+        case LOAD_USERINFOS_SUCCES:
             return { 
                 ...state,
                 firstname: action.firstname,
@@ -44,7 +55,7 @@ function userinfoReducer(state= initialState(),action){
                 error:'',
                 loading:false,   
             }
-        case LOAD_CHANGE_SUCCES:
+        case LOAD_UPDATE_USERINFOS_SUCCES:
             return { 
                 ...state,
                 firstname: action.firstname,
@@ -57,11 +68,7 @@ function userinfoReducer(state= initialState(),action){
                 ...state,
                 remember:true
             }
-        case LOAD_TOKEN:
-            return {
-                ...state,
-                loading:true,
-            }
+      
         case LOG_OUT:
             return {
                 email:'',
@@ -75,12 +82,7 @@ function userinfoReducer(state= initialState(),action){
                 loading:false,
                 remember:false
             }
-        case LOAD_TOKEN_ERROR:
-            return{
-                ...state,
-                loading:false,
-                error:action.payload,
-            }
+       
         default:
             return state
     }

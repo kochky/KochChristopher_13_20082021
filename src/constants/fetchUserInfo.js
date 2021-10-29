@@ -1,7 +1,7 @@
 import axios from 'axios'
 import {loadToken,loadTokenUserInfoSucces,loadTokenError} from './actions'
 
-export const apiCallUserInfo = (token,state) => {
+export const apiCallUserInfo = (token) => {
   
 	return (dispatch) => {
         dispatch(loadToken())

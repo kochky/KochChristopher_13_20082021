@@ -1,0 +1,132 @@
+swagger: '2.0'
+info:
+  title: Bank Argent API documentation
+  description: Contains all available API endpoints in this codebase
+  version: '1.0.0'
+  termsOfService: 'http://swagger.io/terms/'
+host: localhost:3001
+basePath: /api/v1
+schemes:
+  - http
+paths:
+  /user/transactions:
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - Transactions 
+      summary: transactions
+      description: API for transactions
+      parameters:
+        - in: header
+          name: Autorization 
+          description: Attach Bearer JWT token
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Transactions received
+          schema:
+            $ref: '#/definitions/AllTransactions'
+        '400':
+          description: Invalid Token
+        '500':
+          description: Internal Server Error
+
+  /user/transactions/id:
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - Transactions 
+      summary: Transaction details
+      description: API for transactions details
+      parameters:
+       - in: header
+         name: Autorization 
+         description: Attach Bearer JWT token
+         required: true
+         type: string
+       - in: body
+         name: id
+         description: id of the transactions
+         required: true
+         schema:
+            $ref: '#/definitions/Details'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Signup Successfully
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+          
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - Transactions
+      summary: Add/Change/Delete details
+      description: API for updating a transaction
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Update transaction attribute
+          required: true
+          schema:
+            $ref: '#/definitions/UpdateTransaction'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Transaction retrieved successfully
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '400':
+          description: Invalid Field
+        '500':
+          description: Internal Server Error
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+definitions:
+  Details:
+    properties:  
+     id:
+        type: string
+        description: transaction id
+  ApiResponse:
+    type: object
+    properties:
+      description:
+        type: string
+  AllTransactions:
+    type: object
+    properties:
+        id: 
+          type: string
+        amount:
+          type: string
+        date:
+          type: string
+  UpdateTransaction:
+    type: object
+    properties:
+      id:
+        type: string
+      description:
+        type: string
+      

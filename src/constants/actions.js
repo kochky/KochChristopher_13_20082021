@@ -1,4 +1,4 @@
-import { LOAD_TOKEN, LOAD_TOKEN_SUCCES, LOAD_TOKEN_ERROR,REMEMBER,LOAD_TOKEN_USER_SUCCES,LOAD_CHANGE_SUCCES } from "./actionsType"
+import { LOAD_TOKEN, LOAD_TOKEN_SUCCES, LOAD_TOKEN_ERROR,REMEMBER,LOAD_USERINFOS_SUCCES,LOAD_UPDATE_USERINFOS_SUCCES } from "./actionsType"
 
 export const loadToken= ()=> {
     return {
@@ -13,17 +13,23 @@ export const loadTokenSucces= (data,emailData,emailPassword)=> {
         password:emailPassword
     }
 }
-export const loadTokenUserInfoSucces= (firstData,LastData,idData,emailData)=> {
+export const loadTokenError= (error)=> {
     return {
-        type: LOAD_TOKEN_USER_SUCCES,
+        type: LOAD_TOKEN_ERROR,
+        payload:error
+    }
+}
+export const loadTokenUserInfoSucces= (firstData,LastData,idData)=> {
+    return {
+        type: LOAD_USERINFOS_SUCCES,
         firstname:firstData,
         lastname:LastData,
         id:idData,     
     }
 }
-export const loadChangeInfoSucces= (firstData,LastData,idData,emailData)=> {
+export const loadChangeInfoSucces= (firstData,LastData)=> {
     return {
-        type: LOAD_CHANGE_SUCCES,
+        type: LOAD_UPDATE_USERINFOS_SUCCES,
         firstname:firstData,
         lastname:LastData,
         
@@ -35,9 +41,4 @@ export const loadTokenRememberSucces= ()=> {
         type: REMEMBER,          
     }
 }
-export const loadTokenError= (error)=> {
-    return {
-        type: LOAD_TOKEN_ERROR,
-        payload:error
-    }
-}
+

@@ -4,15 +4,15 @@ import { apiCallUserInfo} from '../constants/fetchUserInfo';
 import { apiPutUserInfo } from '../constants/fetchChangeInfo';
 import AccountItem from '../componants/AccountItem'
 
-function User(props) {
+function User(state) {
 
   const [isOpen,setIsOpen]=useState(false)
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
  
   useEffect(()=>{
-    props.apiUserInfo(props.token,props)        
-  },[props])
+    state.apiUserInfo(state.token,state)        
+  },[state])
 
   const handleClick = async e => {
     isOpen? (setIsOpen(false)) :(setIsOpen(true))
@@ -20,8 +20,8 @@ function User(props) {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    props.apiChangeInfo({firstName,lastName},props.token)
-    if(props.error===''){
+    state.apiChangeInfo({firstName,lastName},state.token)
+    if(state.error===''){
       setIsOpen(false)
     }
    }
@@ -29,7 +29,7 @@ function User(props) {
     return (
        <main className="main bg-dark">
       <div className="header">
-        <h1>Welcome back<br />{props.firstname} {props.lastname} !</h1>
+        <h1>Welcome back<br />{state.firstname} {state.lastname} !</h1>
         <button className="edit-button" onClick={handleClick}>Edit Name</button>
       </div>
 
@@ -44,7 +44,7 @@ function User(props) {
               <label htmlFor="lastname">Lastname</label>
               <input required type="text" id="lastname" name="lastname" value={lastName}  onChange={e => setLastName(e.target.value)}/>
             </div>
-            <div>{props.error}</div>
+            <div>{state.error}</div>
             <button className="sign-in-button">Save</button>
           </form>
         </div>)

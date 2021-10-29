@@ -4,7 +4,7 @@ import {connect } from "react-redux";
 import { apiCallToken } from '../constants/fetchToken';
 
 
-function Form (props) {
+function Form (state) {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -12,9 +12,9 @@ function Form (props) {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    props.apiData({email,password},remember)
+    state.apiData({email,password},remember)
    }
-    return !props.auth?(
+    return !state.auth?(
 
       <form onSubmit={handleSubmit}>
         <div className="input-wrapper">
@@ -29,7 +29,7 @@ function Form (props) {
           <input type="checkbox" id="remember-me" name="remember" value={remember} onChange={e => setRemember(e.target.checked)} />
           <label htmlFor="remember-me" >Remember me</label>
         </div>
-        <div className="error-message">{props.error}</div>
+        <div className="error-message">{state.error}</div>
         <button className="sign-in-button">Sign In</button>
       </form>
       ):<Redirect to='/user' /> 
