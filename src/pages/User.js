@@ -12,7 +12,7 @@ function User(state) {
  
   useEffect(()=>{
     state.apiUserInfo(state.token,state)        
-  },[state])
+  },[])
 
   const handleClick = async e => {
     isOpen? (setIsOpen(false)) :(setIsOpen(true))
@@ -26,7 +26,7 @@ function User(state) {
     }
    }
     
-    return (
+    return state.error===''? (
        <main className="main bg-dark">
       <div className="header">
         <h1>Welcome back<br />{state.firstname} {state.lastname} !</h1>
@@ -63,6 +63,7 @@ function User(state) {
         amount='$184.30'
         description='Current' />
     </main>
+    ):(<div className="errorcontainer"><div className="erroroups">{state.error}</div><div className="erroroups">Veuillez réactualiser la page</div></div>
     )
 }
 const mapStateToProps= (state) => { 

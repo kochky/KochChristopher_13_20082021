@@ -336,6 +336,8 @@ body {
   font-size: 18px;
 }
 
+
+
 .edit-profile {
   position:absolute;
   background-color:rgba(18,0,43,0.6);
@@ -352,3 +354,4 @@ body {
   background-color: white;
   margin-top:30px;
 }
+
