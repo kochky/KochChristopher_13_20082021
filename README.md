@@ -35,4 +35,4 @@ A React app for managing a user Bank Account
 
 [Backend Repository](https://github.com/OpenClassrooms-Student-Center/Project-10-Bank-API)
 
-* Webpack
+
